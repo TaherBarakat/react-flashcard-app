@@ -11,14 +11,13 @@ export default function FlashCard({ flashCard }) {
                     {flashCard.question}
                     <div className="flashcard-options">
                          {flashCard.options.map((option, index) => (
-                              <div className="flashcard-option " key={index}>
-                                   {" "}
+                              <div className="flashcard-option " key={option}>
                                    {option}
                               </div>
                          ))}
                     </div>
                </div>
-               <div className="back">nswer {flashCard.answer}</div>
+               <div className="back"> {flashCard.answer}</div>
           </div>
      );
 }

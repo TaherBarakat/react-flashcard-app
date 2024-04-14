@@ -35,7 +35,6 @@ body {
      backface-visibility: hidden;
 }
 .card .back {
-     background-color: blueviolet;
      transform: rotateY(180deg);
 }
 
