@@ -49,7 +49,11 @@ function App() {
           return textArea.value;
      }
 
-     return <FlashCardList flashCards={flashCards}>hi</FlashCardList>;
+     return (
+          <div className="container">
+               <FlashCardList flashCards={flashCards}>hi</FlashCardList>
+          </div>
+     );
 }
 
 export default App;
