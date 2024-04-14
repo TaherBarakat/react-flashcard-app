@@ -1,11 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import FlashCardList from "./FlashCardList";
 import axios from "axios";
 function App() {
      const [flashCards, setFlashCards] = useState([]);
-     // console.log("comp");
+     const [categories, setCategories] = useState([]);
 
+     const categoryEl = useRef();
+
+     useEffect(() => {
+          axios.get("https://opentdb.com/api_category.php").then((res) => {
+               setCategories(res.data.trivia_categories);
+          });
+     }, []);
      useEffect(() => {
           // fetch("https://opentdb.com/api.php?amount=10")
           //      .then((res) => res.json())
@@ -49,10 +56,34 @@ function App() {
           return textArea.value;
      }
 
+     function handleSubmit(e) {
+          e.preventDefault();
+     }
      return (
-          <div className="container">
-               <FlashCardList flashCards={flashCards}>hi</FlashCardList>
-          </div>
+          <>
+               <form className="header" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                         <label htmlFor="category">Category</label>
+                         <select
+                              id="category"
+                              ref={categoryEl}
+                              onChange={(e) => console.log(e.target.value)}
+                         >
+                              {categories.map((category) => (
+                                   <option
+                                        id={category.id}
+                                        value={category.name}
+                                   >
+                                        {category.name}
+                                   </option>
+                              ))}
+                         </select>
+                    </div>
+               </form>
+               <div className="container">
+                    <FlashCardList flashCards={flashCards}>hi</FlashCardList>
+               </div>
+          </>
      );
 }
 
