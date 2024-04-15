@@ -58,7 +58,28 @@ function App() {
      }
 
      function handleSubmit(e) {
+          console.log(e);
           e.preventDefault();
+
+          axios.get("https://opentdb.com/api.php", {
+               params: {
+                    amount: amountEl.current.value,
+                    category: categoryEl.current.value,
+               },
+          }).then((res) => {
+               let fetchedQuestions = res.data.results.map((q, index) => {
+                    let options = [...q.incorrect_answers, q.correct_answer]
+                         .sort(() => Math.random() - 0.5)
+                         .map((a) => decodeString(a));
+                    return {
+                         id: `${index}-${Date.now()}`,
+                         question: decodeString(q.question),
+                         options: options,
+                         answer: q.correct_answer,
+                    };
+               });
+               setFlashCards(fetchedQuestions);
+          });
      }
      return (
           <>
@@ -71,10 +92,7 @@ function App() {
                               onChange={(e) => console.log(e.target.value)}
                          >
                               {categories.map((category) => (
-                                   <option
-                                        id={category.id}
-                                        value={category.name}
-                                   >
+                                   <option id={category.id} value={category.id}>
                                         {category.name}
                                    </option>
                               ))}
@@ -96,7 +114,7 @@ function App() {
                     </div>
                </form>
                <div className="container">
-                    <FlashCardList flashCards={flashCards}>hi</FlashCardList>
+                    <FlashCardList flashCards={flashCards}></FlashCardList>
                </div>
           </>
      );
