@@ -7,6 +7,7 @@ function App() {
      const [categories, setCategories] = useState([]);
 
      const categoryEl = useRef();
+     const amountEl = useRef();
 
      useEffect(() => {
           axios.get("https://opentdb.com/api_category.php").then((res) => {
@@ -78,6 +79,20 @@ function App() {
                                    </option>
                               ))}
                          </select>
+                    </div>
+                    <div className="form-group">
+                         <label htmlFor="amount">Amount</label>
+                         <input
+                              id="amount"
+                              type="number"
+                              min={1}
+                              step={1}
+                              defaultValue={10}
+                              ref={amountEl}
+                         ></input>
+                    </div>
+                    <div className="form-group">
+                         <button className="btn">Generate</button>
                     </div>
                </form>
                <div className="container">
